@@ -16,6 +16,8 @@ char board[H][W] = {} ;
 int score = 0;
 int dropDelay = 200;
 bool isPaused = false;
+int level = 1;
+int baseDelay = 200;
 
 void setColor(int color) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
@@ -281,6 +283,24 @@ int showMenu() {
     }
 }
 
+void updateLevel() {
+    level = score / 500 + 1;
+
+    dropDelay = baseDelay - (level - 1) * 20;
+    if (dropDelay < 50)
+        dropDelay = 50;
+}
+
+void drawLevel() {
+    gotoxy(START_X + W * 2 + 2, START_Y + 5);
+    setColor(11);
+    cout << "LEVEL:";
+    gotoxy(START_X + W * 2 + 2, START_Y + 6);
+    setColor(15);
+    cout << level;
+    setColor(7);
+}
+
 int main()
 {
     hideCursor();
@@ -296,12 +316,12 @@ int main()
     int choice;
     while (true) {
         choice = showMenu();
-
         if (choice == 1) break;
-        if (choice == 2) dropDelay = 400;
-        if (choice == 3) dropDelay = 200;
-        if (choice == 4) dropDelay = 80;
+        if (choice == 2) baseDelay = 400;
+        if (choice == 3) baseDelay = 200;
+        if (choice == 4) baseDelay = 80;
         if (choice == 5) return 0;
+        dropDelay = baseDelay;
     }
 
     while (true) {
@@ -344,6 +364,7 @@ int main()
         else {
             pieceToBoard();
             removeFullLines();
+            updateLevel();
             delete currentPiece;
             currentPiece = nextPiece;
             nextPiece = createPiece(rand() % 7);
@@ -359,6 +380,7 @@ int main()
         pieceToBoard();
         drawBoard();
         drawScore();
+        drawLevel();
         drawNextPiece();
         Sleep(dropDelay);
     }
