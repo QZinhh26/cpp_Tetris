@@ -206,6 +206,36 @@ void drawScore() {
     setColor(7);
 }
 
+bool isGameOver() {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (currentPiece->shape[i][j] != ' ') {
+                int by = currentPiece->y + i;
+                int bx = currentPiece->x + j;
+                if (by >= 0 && board[by][bx] != ' ')
+                    return true;
+            }
+    return false;
+}
+
+void drawPause() {
+    gotoxy(START_X + W - 4, START_Y + H / 2);
+    setColor(12);
+    cout << " PAUSED ";
+    setColor(7);
+}
+
+void drawGameOver() {
+    gotoxy(START_X + W - 5, START_Y + H / 2);
+    setColor(12);
+    cout << " GAME OVER ";
+
+    gotoxy(START_X + W - 6, START_Y + H / 2 + 1);
+    setColor(14);
+    cout << " SCORE: " << score << " ";
+    setColor(7);
+}
+
 int main()
 {
     hideCursor();
@@ -218,10 +248,18 @@ int main()
     pieceToBoard();
 
     while (true) {
+        if (isPaused) {
+            drawPause();
+            Sleep(100);
+            continue;
+        }
+
         if (_kbhit()) {
             char c = _getch();
             boardDelPiece();
 
+            if (c == 'p' || c == 'P')
+                isPaused = !isPaused;
             if (c == 'a' || c == 'A')
                 if (currentPiece->canMove(-1, 0)) currentPiece->x--;
             if (c == 'd' || c == 'D')
@@ -245,6 +283,13 @@ int main()
             removeFullLines();
             delete currentPiece;
             currentPiece = createPiece(rand() % 7);
+
+            if (isGameOver()) {
+                pieceToBoard();
+                drawBoard();
+                drawGameOver();
+                break;
+            }
         }
 
         pieceToBoard();
