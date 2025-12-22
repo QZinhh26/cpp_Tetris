@@ -40,11 +40,6 @@ public:
             for (int j = 0; j < 4; j++)
                 shape[i][j] = ' ';
 
-        shape[1][1] = 'X';
-        shape[1][2] = 'X';
-        shape[2][1] = 'X';
-        shape[2][2] = 'X';
-
         x = W / 2 - 2;
         y = 0;
     }
@@ -65,7 +60,41 @@ public:
         }
         return true;
     }
+
+    void rotate() {
+        char temp[4][4];
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                temp[j][3 - i] = shape[i][j];
+
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                if (temp[i][j] != ' ') {
+                    int tx = x + j;
+                    int ty = y + i;
+                    if (tx < 1 || tx >= W - 1 || ty >= H - 1) return;
+                    if (ty >= 0 && board[ty][tx] != ' ') return;
+                }
+
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                shape[i][j] = temp[i][j];
+    }
 };
+
+Piece* createPiece(int id) {
+    Piece* p = new Piece();
+    switch (id) {
+    case 0: p->shape[1][0] = p->shape[1][1] = p->shape[1][2] = p->shape[1][3] = 'I'; break;
+    case 1: p->shape[1][1] = p->shape[1][2] = p->shape[2][1] = p->shape[2][2] = 'O'; break;
+    case 2: p->shape[1][1] = p->shape[2][0] = p->shape[2][1] = p->shape[2][2] = 'T'; break;
+    case 3: p->shape[1][1] = p->shape[1][2] = p->shape[2][0] = p->shape[2][1] = 'S'; break;
+    case 4: p->shape[1][0] = p->shape[1][1] = p->shape[2][1] = p->shape[2][2] = 'Z'; break;
+    case 5: p->shape[1][0] = p->shape[2][0] = p->shape[2][1] = p->shape[2][2] = 'J'; break;
+    case 6: p->shape[1][2] = p->shape[2][0] = p->shape[2][1] = p->shape[2][2] = 'L'; break;
+    }
+    return p;
+}
 
 Piece* currentPiece = nullptr;
 
@@ -117,17 +146,6 @@ void drawBoard() {
     }
 }
 
-// bool canMove(int dx, int dy){
-//     for (int i = 0 ; i < 4 ; i++)
-//         for (int j = 0 ; j < 4 ; j++)
-//             if (blocks[b][i][j] != ' '){
-//                 int tx = x + j + dx;int ty = y + i + dy;
-//                 if ( tx<1 || tx >= W-1 || ty >= H-1) return false;
-//                 if ( board[ty][tx] != ' ') return false;
-//             }
-//     return true;
-// }
-
 // void removeLine(){
 //     int j;
 //     for (int i = H-2; i >0 ; i-- ){
@@ -151,14 +169,26 @@ int main()
     system("cls");
     initBoard();
 
-    currentPiece = new Piece();
+    currentPiece = createPiece(rand() % 7);
     pieceToBoard();
 
     while (true) {
         if (_kbhit()) {
             char c = _getch();
+            boardDelPiece();
+
+            if (c == 'a' || c == 'A')
+                if (currentPiece->canMove(-1, 0)) currentPiece->x--;
+            if (c == 'd' || c == 'D')
+                if (currentPiece->canMove(1, 0)) currentPiece->x++;
+            if (c == 's' || c == 'S')
+                if (currentPiece->canMove(0, 1)) currentPiece->y++;
+            if (c == 'w' || c == 'W')
+                currentPiece->rotate();
             if (c == 'q' || c == 'Q')
                 break;
+
+            pieceToBoard();
         }
 
         boardDelPiece();
@@ -166,10 +196,14 @@ int main()
         if (currentPiece->canMove(0, 1)) {
             currentPiece->y++;
         }
+        else {
+            pieceToBoard();
+            delete currentPiece;
+            currentPiece = createPiece(rand() % 7);
+        }
 
         pieceToBoard();
         drawBoard();
-
         Sleep(dropDelay);
     }
 
