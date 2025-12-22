@@ -370,6 +370,12 @@ int main()
                 while (currentPiece->canMove(0, 1)) {
                     currentPiece->y++;
                 }
+                pieceToBoard();
+                removeFullLines();
+                updateLevel();
+                delete currentPiece;
+                currentPiece = nextPiece;
+                nextPiece = createPiece(rand() % 7);
             }
             if (c == 'q' || c == 'Q')
                 break;
