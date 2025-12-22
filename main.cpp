@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <ctime>
 #include <cstdlib>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -218,6 +220,7 @@ void removeFullLines() {
 
   
     if (linesCleared > 0) {
+        playSound("lineclear.wav");
         int comboScore = 0;
         switch (linesCleared) {
         case 1: comboScore = 100; break;
@@ -403,6 +406,10 @@ void gameOverAnimation() {
     setColor(7);
 }
 
+void playSound(const char* file) {
+    PlaySound(file, NULL, SND_FILENAME | SND_ASYNC);
+}
+
 int main()
 {
     hideCursor();
@@ -448,6 +455,7 @@ int main()
             if (c == 'w' || c == 'W')
                 currentPiece->rotate();
             if (c == ' ') {
+                playSound("hardDrop.wav");
                 while (currentPiece->canMove(0, 1)) {
                     boardDelPiece();
                     currentPiece->y++;
