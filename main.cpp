@@ -322,6 +322,30 @@ void resetGame() {
     pieceToBoard();
 }
 
+void drawGhostPiece() {
+    Piece ghost = *currentPiece;
+
+    while (ghost.canMove(0, 1)) {
+        ghost.y++;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (ghost.shape[i][j] != ' ') {
+                int gx = ghost.x + j;
+                int gy = ghost.y + i;
+
+                if (gy >= 0 && gy < H && gx >= 0 && gx < W) {
+                    gotoxy(START_X + gx * 2, START_Y + gy);
+                    setColor(8);
+                    cout << "..";   
+                }
+            }
+        }
+    }
+    setColor(7);
+}
+
 int main()
 {
     hideCursor();
@@ -438,6 +462,7 @@ int main()
 
         pieceToBoard();
         drawBoard();
+        drawGhostPiece();
         drawScore();
         drawLevel();
         drawNextPiece();
