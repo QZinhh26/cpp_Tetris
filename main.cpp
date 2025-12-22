@@ -188,6 +188,8 @@ void flashLine(int row) {
 }
 
 void removeFullLines() {
+    int linesCleared = 0;
+
     for (int i = H - 2; i > 0; i--) {
         bool full = true;
         for (int j = 1; j < W - 1; j++) {
@@ -199,6 +201,8 @@ void removeFullLines() {
 
         if (full) {
             flashLine(i);
+            linesCleared++;
+
             for (int r = i; r > 0; r--) {
                 for (int c = 1; c < W - 1; c++) {
                     board[r][c] = board[r - 1][c];
@@ -208,9 +212,21 @@ void removeFullLines() {
             for (int c = 1; c < W - 1; c++)
                 board[0][c] = ' ';
 
-            score += 100;
-            i++;
+            i++; 
         }
+    }
+
+  
+    if (linesCleared > 0) {
+        int comboScore = 0;
+        switch (linesCleared) {
+        case 1: comboScore = 100; break;
+        case 2: comboScore = 300; break;
+        case 3: comboScore = 500; break;
+        case 4: comboScore = 800; break;
+        }
+
+        score += comboScore * level;
     }
 }
 
