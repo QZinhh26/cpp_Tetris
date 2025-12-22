@@ -366,6 +366,11 @@ int main()
                 if (currentPiece->canMove(0, 1)) currentPiece->y++;
             if (c == 'w' || c == 'W')
                 currentPiece->rotate();
+            if (c == ' ') { // HARD DROP
+                while (currentPiece->canMove(0, 1)) {
+                    currentPiece->y++;
+                }
+            }
             if (c == 'q' || c == 'Q')
                 break;
 
