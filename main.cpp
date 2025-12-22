@@ -173,6 +173,20 @@ void drawBoard() {
     setColor(7);
 }
 
+void flashLine(int row) {
+    for (int t = 0; t < 3; t++) {
+        for (int j = 1; j < W - 1; j++)
+            board[row][j] = ' ';
+        drawBoard();
+        Sleep(80);
+
+        for (int j = 1; j < W - 1; j++)
+            board[row][j] = '#';
+        drawBoard();
+        Sleep(80);
+    }
+}
+
 void removeFullLines() {
     for (int i = H - 2; i > 0; i--) {
         bool full = true;
@@ -184,6 +198,7 @@ void removeFullLines() {
         }
 
         if (full) {
+            flashLine(i);
             for (int r = i; r > 0; r--) {
                 for (int c = 1; c < W - 1; c++) {
                     board[r][c] = board[r - 1][c];
