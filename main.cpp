@@ -30,19 +30,44 @@ void gotoxy(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
-// void boardDelBlock(){
-//     for (int i = 0 ; i < 4 ; i++)
-//         for (int j = 0 ; j < 4 ; j++)
-//             if (blocks[b][i][j] != ' ' && y+j < H)
-//                 board[y+i][x+j] = ' ';
-// }
+class Piece {
+public:
+    char shape[4][4];
+    int x, y;
 
-// void block2Board(){
-//     for (int i = 0 ; i < 4 ; i++)
-//         for (int j = 0 ; j < 4 ; j++)
-//             if (blocks[b][i][j] != ' ' )
-//                 board[y+i][x+j] = blocks[b][i][j];
-// }
+    Piece() {
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                shape[i][j] = ' ';
+
+        shape[1][1] = 'X';
+        shape[1][2] = 'X';
+        shape[2][1] = 'X';
+        shape[2][2] = 'X';
+
+        x = W / 2 - 2;
+        y = 0;
+    }
+
+    bool canMove(int dx, int dy) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (shape[i][j] != ' ') {
+                    int tx = x + j + dx;
+                    int ty = y + i + dy;
+
+                    if (tx < 1 || tx >= W - 1 || ty >= H - 1)
+                        return false;
+                    if (ty >= 0 && board[ty][tx] != ' ')
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+
+Piece* currentPiece = nullptr;
 
 void initBoard() {
     for (int i = 0; i < H; i++) {
@@ -53,6 +78,28 @@ void initBoard() {
                 board[i][j] = ' ';
         }
     }
+}
+
+void boardDelPiece() {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (currentPiece->shape[i][j] != ' ') {
+                int by = currentPiece->y + i;
+                int bx = currentPiece->x + j;
+                if (by >= 0 && by < H && bx >= 0 && bx < W)
+                    board[by][bx] = ' ';
+            }
+}
+
+void pieceToBoard() {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (currentPiece->shape[i][j] != ' ') {
+                int by = currentPiece->y + i;
+                int bx = currentPiece->x + j;
+                if (by >= 0 && by < H && bx >= 0 && bx < W)
+                    board[by][bx] = currentPiece->shape[i][j];
+            }
 }
 
 void drawBoard() {
@@ -104,17 +151,28 @@ int main()
     system("cls");
     initBoard();
 
-    while (true) {
-        drawBoard();
+    currentPiece = new Piece();
+    pieceToBoard();
 
+    while (true) {
         if (_kbhit()) {
             char c = _getch();
             if (c == 'q' || c == 'Q')
                 break;
         }
 
+        boardDelPiece();
+
+        if (currentPiece->canMove(0, 1)) {
+            currentPiece->y++;
+        }
+
+        pieceToBoard();
+        drawBoard();
+
         Sleep(dropDelay);
     }
 
+    delete currentPiece;
     return 0;
 }
