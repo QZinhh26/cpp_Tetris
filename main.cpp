@@ -170,20 +170,41 @@ void drawBoard() {
     setColor(7);
 }
 
-// void removeLine(){
-//     int j;
-//     for (int i = H-2; i >0 ; i-- ){
-//         for (j = 0; j < W-1 ; j++)
-//             if (board[i][j] == ' ') break;
-//         if (j == W-1){
-//             for (int ii = i; ii >0 ; ii-- )
-//                 for (int j = 0; j < W-1 ; j++ ) board[ii][j] = board[ii-1][j];
-//             i++;
-//             draw();
-//             _sleep(200);
-//         }
-//     }
-// }
+void removeFullLines() {
+    for (int i = H - 2; i > 0; i--) {
+        bool full = true;
+        for (int j = 1; j < W - 1; j++) {
+            if (board[i][j] == ' ') {
+                full = false;
+                break;
+            }
+        }
+
+        if (full) {
+            for (int r = i; r > 0; r--) {
+                for (int c = 1; c < W - 1; c++) {
+                    board[r][c] = board[r - 1][c];
+                }
+            }
+
+            for (int c = 1; c < W - 1; c++)
+                board[0][c] = ' ';
+
+            score += 100;
+            i++;
+        }
+    }
+}
+
+void drawScore() {
+    gotoxy(START_X + W * 2 + 2, START_Y + 2);
+    setColor(14);
+    cout << "SCORE:";
+    gotoxy(START_X + W * 2 + 2, START_Y + 3);
+    setColor(15);
+    cout << score;
+    setColor(7);
+}
 
 int main()
 {
@@ -221,12 +242,14 @@ int main()
             currentPiece->y++;
         else {
             pieceToBoard();
+            removeFullLines();
             delete currentPiece;
             currentPiece = createPiece(rand() % 7);
         }
 
         pieceToBoard();
         drawBoard();
+        drawScore();
         Sleep(dropDelay);
     }
 
