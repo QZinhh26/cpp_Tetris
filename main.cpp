@@ -407,16 +407,23 @@ int main()
                 currentPiece->rotate();
             if (c == ' ') {
                 while (currentPiece->canMove(0, 1)) {
+                    boardDelPiece();
                     currentPiece->y++;
+                    pieceToBoard();
+                    drawBoard();
+                    drawGhostPiece();
+                    Sleep(15);
                 }
+
                 pieceToBoard();
                 removeFullLines();
                 updateLevel();
+
                 delete currentPiece;
                 currentPiece = nextPiece;
                 nextPiece = createPiece(rand() % 7);
+
                 if (isGameOver()) {
-                    pieceToBoard();
                     drawBoard();
                     drawGameOver();
 
