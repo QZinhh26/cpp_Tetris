@@ -283,7 +283,6 @@ void drawGameOver() {
     setColor(7);
 }
 
-
 int showMenu() {
     system("cls");
     setColor(14);
@@ -361,6 +360,28 @@ void drawGhostPiece() {
     setColor(7);
 }
 
+void gameOverAnimation() {
+    for (int i = 0; i < H - 1; i++) {
+        for (int j = 1; j < W - 1; j++) {
+            board[i][j] = '#';
+        }
+        drawBoard();
+        Sleep(50);
+    }
+
+    for (int t = 0; t < 3; t++) {
+        drawBoard();
+        drawGameOver();
+        Sleep(250);
+
+        gotoxy(START_X + W - 5, START_Y + H / 2);
+        cout << "           ";
+        gotoxy(START_X + W - 7, START_Y + H / 2 + 1);
+        cout << "             ";
+        Sleep(200);
+    }
+}
+
 int main()
 {
     hideCursor();
@@ -424,7 +445,7 @@ int main()
                 nextPiece = createPiece(rand() % 7);
 
                 if (isGameOver()) {
-                    drawBoard();
+                    gameOverAnimation();
                     drawGameOver();
 
                     while (true) {
@@ -466,7 +487,7 @@ int main()
 
             if (isGameOver()) {
                 pieceToBoard();
-                drawBoard();
+                gameOverAnimation();
                 drawGameOver();
 
                 while (true) {
