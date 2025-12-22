@@ -409,6 +409,32 @@ void gameOverAnimation() {
 void playSound(const char* file) {
     PlaySound(file, NULL, SND_FILENAME | SND_ASYNC);
 }
+//Guide
+void showControls() {
+    system("cls");
+    setColor(11);
+    gotoxy(10, 3); cout << "HOW TO PLAY - CONTROLS";
+    setColor(7);
+
+    gotoxy(10, 5);  cout << "A  : Move Left";
+    gotoxy(10, 6);  cout << "D  : Move Right";
+    gotoxy(10, 7);  cout << "S  : Soft Drop";
+    gotoxy(10, 8);  cout << "W  : Rotate";
+    gotoxy(10, 9);  cout << "SPACE : Hard Drop";
+    gotoxy(10,10);  cout << "P  : Pause / Resume";
+    gotoxy(10,11);  cout << "Q  : Quit Game";
+
+    setColor(14);
+    gotoxy(10, 14); cout << "Press B to go back to Menu";
+    setColor(7);
+
+    while (true) {
+        char c = _getch();
+        if (c == 'b' || c == 'B')
+            break;
+    }
+}
+
 
 int main()
 {
@@ -429,9 +455,11 @@ int main()
         if (choice == 2) baseDelay = 400;
         if (choice == 3) baseDelay = 200;
         if (choice == 4) baseDelay = 80;
-        if (choice == 5) return 0;
+        if (choice == 5) showControls();
+        if (choice == 6) return 0;
         dropDelay = baseDelay;
     }
+
     restart_game:
     while (true) {
 
