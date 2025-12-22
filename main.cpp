@@ -248,18 +248,18 @@ int main()
     pieceToBoard();
 
     while (true) {
-        if (isPaused) {
-            drawPause();
-            Sleep(100);
-            continue;
-        }
 
         if (_kbhit()) {
             char c = _getch();
+
+            if (c == 'p' || c == 'P') {
+                isPaused = !isPaused;
+            }
+
+            if (isPaused) continue;
+
             boardDelPiece();
 
-            if (c == 'p' || c == 'P')
-                isPaused = !isPaused;
             if (c == 'a' || c == 'A')
                 if (currentPiece->canMove(-1, 0)) currentPiece->x--;
             if (c == 'd' || c == 'D')
@@ -272,6 +272,12 @@ int main()
                 break;
 
             pieceToBoard();
+        }
+
+        if (isPaused) {
+            drawPause();
+            Sleep(100);
+            continue;
         }
 
         boardDelPiece();
