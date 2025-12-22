@@ -114,6 +114,7 @@ Piece* createPiece(int id) {
 }
 
 Piece* currentPiece = nullptr;
+Piece* nextPiece = nullptr;
 
 void initBoard() {
     for (int i = 0; i < H; i++) {
@@ -206,6 +207,31 @@ void drawScore() {
     setColor(7);
 }
 
+void drawNextPiece() {
+    int nx = START_X + W * 2 + 2;
+    int ny = START_Y + 6;
+
+    setColor(15);
+    gotoxy(nx, ny - 1);
+    cout << "NEXT:";
+
+    for (int i = 0; i < 4; i++) {
+        gotoxy(nx, ny + i);
+        cout << "        ";
+    }
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (nextPiece->shape[i][j] != ' ') {
+                setColor(getBlockColor(nextPiece->shape[i][j]));
+                gotoxy(nx + j * 2, ny + i);
+                cout << "[]";
+            }
+        }
+    }
+    setColor(7);
+}
+
 bool isGameOver() {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
@@ -245,6 +271,7 @@ int main()
     initBoard();
 
     currentPiece = createPiece(rand() % 7);
+    nextPiece = createPiece(rand() % 7);
     pieceToBoard();
 
     while (true) {
@@ -288,7 +315,8 @@ int main()
             pieceToBoard();
             removeFullLines();
             delete currentPiece;
-            currentPiece = createPiece(rand() % 7);
+            currentPiece = nextPiece;
+            nextPiece = createPiece(rand() % 7);
 
             if (isGameOver()) {
                 pieceToBoard();
@@ -301,9 +329,11 @@ int main()
         pieceToBoard();
         drawBoard();
         drawScore();
+        drawNextPiece();
         Sleep(dropDelay);
     }
 
     delete currentPiece;
+    delete nextPiece;
     return 0;
 }
