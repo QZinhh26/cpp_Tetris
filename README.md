@@ -1,0 +1,104 @@
+# C++ Tetris
+
+Một phiên bản **Tetris đơn giản** được viết bằng **C++**, chạy trực tiếp trên **console**, kèm **hiệu ứng âm thanh `.wav`**.
+
+---
+
+## 📌 Giới thiệu
+
+Dự án mô phỏng trò chơi **Tetris cổ điển** bằng ngôn ngữ **C++**.  
+Người chơi điều khiển các khối rơi, xoay và sắp xếp chúng để hoàn thành các hàng và ghi điểm.
+
+Project được thực hiện với mục đích **học tập và thực hành C++**, tập trung vào:
+
+- Logic game  
+
+- Xử lý bàn chơi  
+
+- Điều khiển từ bàn phím  
+
+- Âm thanh cơ bản  
+
+---
+
+## 🎮 Tính năng
+
+- Các khối Tetris rơi tự động 
+
+- Xoay và di chuyển khối  
+
+- Xóa hàng khi lấp đầy  
+
+- Hiệu ứng âm thanh:
+
+  - Ghi điểm  
+
+  - Hard drop  
+
+  - Game over  
+
+- Chạy trực tiếp trên console  
+
+---
+
+## 📁 Cấu trúc thư mục
+
+```text
+cpp_Tetris
+├── main.cpp
+├── sfx_gameOver.wav
+├── sfx_hardDrop.wav
+├── sfx_score.wav
+└── README.md
+```
+
+## 🛠️ Yêu cầu
+
+- Trình biên dịch C++ (g++, clang hoặc MSVC)
+
+- Hệ điều hành Windows
+
+- Console hỗ trợ nhập phím
+
+## ⚙️ Cách biên dịch
+
+```bash
+g++ main.cpp -o Tetris.exe
+```
+
+## ▶️ Cách chạy
+
+```bash
+Tetris.exe
+```
+
+## ⌨️ Điều khiển (tham khảo)
+
+- `← / →` : Di chuyển trái / phải
+- `↑` : Xoay khối
+- `↓` : Rơi nhanh
+- `Space` : Hard drop
+- `Esc` : Thoát game
+
+> *(Lưu ý: điều khiển cụ thể xem trong `main.cpp`)*
+
+## 🔊 Âm thanh
+
+- `sfx_score.wav` - ghi điểm
+- `sfx_hardDrop.wav` – hard drop
+- `sfx_gameOver.wav` – game over
+
+## 👨‍💻 Tác giả
+- **Nguyễn Quang Vinh - 24522020**
+
+- **Nguyễn Đức Trọng - 24521864**
+
+- **Phạm Nguyễn Trung Trính - 24521860**
+
+## 📌 Ghi chú
+-  Hợp cho sinh viên học C++
+
+- Có thể mở rộng thêm GUI, menu, lưu điểm cao
+
+## 📜 License
+Sử dụng cho **mục đích học tập và phi thương mại.**
