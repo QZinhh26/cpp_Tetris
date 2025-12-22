@@ -17,6 +17,9 @@ int score = 0;
 int dropDelay = 200;
 bool isPaused = false;
 
+void setColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
 
 void hideCursor() {
     CONSOLE_CURSOR_INFO ci;
@@ -28,6 +31,20 @@ void hideCursor() {
 void gotoxy(int x, int y) {
     COORD c = { (SHORT)x, (SHORT)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+int getBlockColor(char c) {
+    switch (c) {
+    case 'I': return 11; // Cyan
+    case 'O': return 14; // Yellow
+    case 'T': return 13; // Magenta
+    case 'S': return 10; // Green
+    case 'Z': return 12; // Red
+    case 'J': return 9;  // Blue
+    case 'L': return 6;  // Brown
+    case '#': return 8;  // Gray
+    default: return 7;
+    }
 }
 
 class Piece {
@@ -135,15 +152,22 @@ void drawBoard() {
     for (int i = 0; i < H; i++) {
         gotoxy(START_X, START_Y + i);
         for (int j = 0; j < W; j++) {
-            if (board[i][j] == '#') {
+            char cell = board[i][j];
+            setColor(getBlockColor(cell));
+
+            if (cell == '#') {
                 if (i == H - 1) cout << "==";
                 else cout << "||";
+            }
+            else if (cell != ' ') {
+                cout << "[]";
             }
             else {
                 cout << " .";
             }
         }
     }
+    setColor(7);
 }
 
 // void removeLine(){
@@ -193,9 +217,8 @@ int main()
 
         boardDelPiece();
 
-        if (currentPiece->canMove(0, 1)) {
+        if (currentPiece->canMove(0, 1))
             currentPiece->y++;
-        }
         else {
             pieceToBoard();
             delete currentPiece;
