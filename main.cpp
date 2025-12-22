@@ -81,26 +81,63 @@ public:
         }
         return true;
     }
+//Rotate
+void rotate() {
+    char temp[4][4] = {};
 
-    void rotate() {
-        char temp[4][4];
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++)
-                temp[j][3 - i] = shape[i][j];
+    // Xoay 90 độ clockwise
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            temp[j][3 - i] = shape[i][j];
 
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++)
+    // Các vị trí wall kick thử
+    int kicks[5][2] = {
+        {0, 0},
+        {-1, 0},
+        {1, 0},
+        {-2, 0},
+        {2, 0}
+    };
+
+    // Thử từng kick
+    for (int k = 0; k < 5; k++) {
+        int dx = kicks[k][0];
+        int dy = kicks[k][1];
+
+        bool canRotate = true;
+
+        for (int i = 0; i < 4 && canRotate; i++) {
+            for (int j = 0; j < 4; j++) {
                 if (temp[i][j] != ' ') {
-                    int tx = x + j;
-                    int ty = y + i;
-                    if (tx < 1 || tx >= W - 1 || ty >= H - 1) return;
-                    if (ty >= 0 && board[ty][tx] != ' ') return;
-                }
+                    int tx = x + j + dx;
+                    int ty = y + i + dy;
 
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++)
-                shape[i][j] = temp[i][j];
+                    if (tx < 1 || tx >= W - 1 || ty >= H - 1) {
+                        canRotate = false;
+                        break;
+                    }
+
+                    if (ty >= 0 && board[ty][tx] != ' ') {
+                        canRotate = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Nếu xoay được → áp dụng
+        if (canRotate) {
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    shape[i][j] = temp[i][j];
+
+            x += dx;
+            y += dy;
+            return;
+        }
     }
+}
+
 };
 
 Piece* createPiece(int id) {
