@@ -220,7 +220,7 @@ void removeFullLines() {
 
   
     if (linesCleared > 0) {
-        playSound("lineclear.wav");
+        playSound("score.wav");
         int comboScore = 0;
         switch (linesCleared) {
         case 1: comboScore = 100; break;
