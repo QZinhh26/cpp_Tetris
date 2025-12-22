@@ -258,11 +258,16 @@ void drawGameOver() {
     setColor(12);
     cout << " GAME OVER ";
 
-    gotoxy(START_X + W - 6, START_Y + H / 2 + 1);
+    gotoxy(START_X + W - 7, START_Y + H / 2 + 1);
     setColor(14);
     cout << " SCORE: " << score << " ";
+
+    gotoxy(START_X + W - 9, START_Y + H / 2 + 3);
+    setColor(11);
+    cout << " R: Restart  Q: Quit ";
     setColor(7);
 }
+
 
 int showMenu() {
     system("cls");
@@ -301,6 +306,22 @@ void drawLevel() {
     setColor(7);
 }
 
+void resetGame() {
+    score = 0;
+    level = 1;
+    dropDelay = baseDelay;
+    isPaused = false;
+
+    initBoard();
+
+    if (currentPiece) delete currentPiece;
+    if (nextPiece) delete nextPiece;
+
+    currentPiece = createPiece(rand() % 7);
+    nextPiece = createPiece(rand() % 7);
+    pieceToBoard();
+}
+
 int main()
 {
     hideCursor();
@@ -323,7 +344,7 @@ int main()
         if (choice == 5) return 0;
         dropDelay = baseDelay;
     }
-
+    restart_game:
     while (true) {
 
         if (_kbhit()) {
@@ -373,7 +394,17 @@ int main()
                 pieceToBoard();
                 drawBoard();
                 drawGameOver();
-                break;
+
+                while (true) {
+                    char c = _getch();
+                    if (c == 'r' || c == 'R') {
+                        resetGame();
+                        goto restart_game;
+                    }
+                    if (c == 'q' || c == 'Q') {
+                        return 0;
+                    }
+                }
             }
         }
 
