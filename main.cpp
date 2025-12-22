@@ -366,6 +366,34 @@ int main()
                 if (currentPiece->canMove(0, 1)) currentPiece->y++;
             if (c == 'w' || c == 'W')
                 currentPiece->rotate();
+            if (c == ' ') {
+                while (currentPiece->canMove(0, 1)) {
+                    currentPiece->y++;
+                }
+                pieceToBoard();
+                removeFullLines();
+                updateLevel();
+                delete currentPiece;
+                currentPiece = nextPiece;
+                nextPiece = createPiece(rand() % 7);
+                if (isGameOver()) {
+                    pieceToBoard();
+                    drawBoard();
+                    drawGameOver();
+
+                    while (true) {
+                        char c = _getch();
+                        if (c == 'r' || c == 'R') {
+                            resetGame();
+                            goto restart_game;
+                        }
+                        if (c == 'q' || c == 'Q') {
+                            return 0;
+                        }
+                    }
+                }
+                continue;
+            }
             if (c == 'q' || c == 'Q')
                 break;
 
