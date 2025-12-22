@@ -474,6 +474,7 @@ int main()
                 nextPiece = createPiece(rand() % 7);
 
                 if (isGameOver()) {
+                    playSound("gameOver.wav");
                     gameOverAnimation();
                     drawGameOver();
 
