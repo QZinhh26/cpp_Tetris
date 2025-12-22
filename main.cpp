@@ -262,6 +262,25 @@ void drawGameOver() {
     setColor(7);
 }
 
+int showMenu() {
+    system("cls");
+    setColor(14);
+    gotoxy(10, 5);  cout << "TETRIS CONSOLE";
+    setColor(7);
+
+    gotoxy(10, 7);  cout << "1. Start Game";
+    gotoxy(10, 8);  cout << "2. Speed: Slow";
+    gotoxy(10, 9);  cout << "3. Speed: Normal";
+    gotoxy(10,10);  cout << "4. Speed: Fast";
+    gotoxy(10,11);  cout << "5. Quit";
+
+    while (true) {
+        char c = _getch();
+        if (c >= '1' && c <= '5')
+            return c - '0';
+    }
+}
+
 int main()
 {
     hideCursor();
@@ -273,6 +292,17 @@ int main()
     currentPiece = createPiece(rand() % 7);
     nextPiece = createPiece(rand() % 7);
     pieceToBoard();
+
+    int choice;
+    while (true) {
+        choice = showMenu();
+
+        if (choice == 1) break;
+        if (choice == 2) dropDelay = 400;
+        if (choice == 3) dropDelay = 200;
+        if (choice == 4) dropDelay = 80;
+        if (choice == 5) return 0;
+    }
 
     while (true) {
 
