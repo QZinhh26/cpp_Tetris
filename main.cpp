@@ -305,18 +305,19 @@ void drawGameOver() {
 int showMenu() {
     system("cls");
     setColor(14);
-    gotoxy(10, 5);  cout << "TETRIS CONSOLE";
+    gotoxy(10, 4);  cout << "TETRIS CONSOLE";
     setColor(7);
 
     gotoxy(10, 7);  cout << "1. Start Game";
     gotoxy(10, 8);  cout << "2. Speed: Slow";
     gotoxy(10, 9);  cout << "3. Speed: Normal";
     gotoxy(10,10);  cout << "4. Speed: Fast";
-    gotoxy(10,11);  cout << "5. Quit";
+    gotoxy(10,11);  cout << "5. Guide";
+    gotoxy(10,12);  cout << "6. Quit";
 
     while (true) {
         char c = _getch();
-        if (c >= '1' && c <= '5')
+        if (c >= '1' && c <= '6')
             return c - '0';
     }
 }
