@@ -173,6 +173,20 @@ void drawBoard() {
     setColor(7);
 }
 
+void flashLine(int row) {
+    for (int t = 0; t < 3; t++) {
+        for (int j = 1; j < W - 1; j++)
+            board[row][j] = ' ';
+        drawBoard();
+        Sleep(80);
+
+        for (int j = 1; j < W - 1; j++)
+            board[row][j] = '#';
+        drawBoard();
+        Sleep(80);
+    }
+}
+
 void removeFullLines() {
     for (int i = H - 2; i > 0; i--) {
         bool full = true;
@@ -184,6 +198,7 @@ void removeFullLines() {
         }
 
         if (full) {
+            flashLine(i);
             for (int r = i; r > 0; r--) {
                 for (int c = 1; c < W - 1; c++) {
                     board[r][c] = board[r - 1][c];
@@ -268,7 +283,6 @@ void drawGameOver() {
     setColor(7);
 }
 
-
 int showMenu() {
     system("cls");
     setColor(14);
@@ -346,6 +360,33 @@ void drawGhostPiece() {
     setColor(7);
 }
 
+void gameOverAnimation() {
+    for (int i = 0; i < H - 1; i++) {
+        for (int j = 1; j < W - 1; j++) {
+            board[i][j] = '#';
+        }
+        setColor(8);
+        drawBoard();
+        Sleep(50);
+    }
+
+    for (int t = 0; t < 3; t++) {
+        setColor(12);
+        drawBoard();
+        drawGameOver();
+        Sleep(250);
+
+        setColor(8);
+        gotoxy(START_X + W - 6, START_Y + H / 2);
+        cout << "           ";
+        gotoxy(START_X + W - 8, START_Y + H / 2 + 1);
+        cout << "             ";
+        Sleep(200);
+    }
+
+    setColor(7);
+}
+
 int main()
 {
     hideCursor();
@@ -392,17 +433,24 @@ int main()
                 currentPiece->rotate();
             if (c == ' ') {
                 while (currentPiece->canMove(0, 1)) {
+                    boardDelPiece();
                     currentPiece->y++;
+                    pieceToBoard();
+                    drawBoard();
+                    drawGhostPiece();
+                    Sleep(15);
                 }
+
                 pieceToBoard();
                 removeFullLines();
                 updateLevel();
+
                 delete currentPiece;
                 currentPiece = nextPiece;
                 nextPiece = createPiece(rand() % 7);
+
                 if (isGameOver()) {
-                    pieceToBoard();
-                    drawBoard();
+                    gameOverAnimation();
                     drawGameOver();
 
                     while (true) {
@@ -444,7 +492,7 @@ int main()
 
             if (isGameOver()) {
                 pieceToBoard();
-                drawBoard();
+                gameOverAnimation();
                 drawGameOver();
 
                 while (true) {
