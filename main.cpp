@@ -371,16 +371,19 @@ void gameOverAnimation() {
     }
 
     for (int t = 0; t < 3; t++) {
+        setColor(12);
         drawBoard();
         drawGameOver();
         Sleep(250);
 
-        gotoxy(START_X + W - 5, START_Y + H / 2);
+        setColor(8);
+        gotoxy(START_X + W - 6, START_Y + H / 2);
         cout << "           ";
-        gotoxy(START_X + W - 7, START_Y + H / 2 + 1);
+        gotoxy(START_X + W - 8, START_Y + H / 2 + 1);
         cout << "             ";
         Sleep(200);
     }
+
     setColor(7);
 }
 
