@@ -365,6 +365,7 @@ void gameOverAnimation() {
         for (int j = 1; j < W - 1; j++) {
             board[i][j] = '#';
         }
+        setColor(8);
         drawBoard();
         Sleep(50);
     }
@@ -380,6 +381,7 @@ void gameOverAnimation() {
         cout << "             ";
         Sleep(200);
     }
+    setColor(7);
 }
 
 int main()
