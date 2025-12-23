@@ -4,7 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <mmsystem.h>
-#pragma comment(lib, "winmm.lib")
+// #pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -410,10 +410,12 @@ void drawGhostPiece() {
                 int gx = ghost.x + j;
                 int gy = ghost.y + i;
 
-                if (gy >= 0 && gy < H && gx >= 0 && gx < W) {
+                if (gy >= 0 && gy < H && gx >= 0 && gx < W &&
+                    board[gy][gx] == ' ') {
+
                     gotoxy(START_X + gx * 2, START_Y + gy);
                     setColor(8);
-                    cout << "..";   
+                    cout << "..";
                 }
             }
         }
