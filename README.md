@@ -45,7 +45,9 @@ Project được thực hiện với mục đích **học tập và thực hành
 
 ```text
 cpp_Tetris
+├── .gitignore
 ├── main.cpp
+├── main.exe
 ├── sfx_gameOver.wav
 ├── sfx_hardDrop.wav
 ├── sfx_score.wav
@@ -63,7 +65,7 @@ cpp_Tetris
 ## ⚙️ Cách biên dịch
 
 ```bash
-g++ main.cpp -o Tetris.exe
+g++ main.cpp -o Tetris.exe -lwinmm
 ```
 
 ## ▶️ Cách chạy
