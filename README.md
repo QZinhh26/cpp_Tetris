@@ -65,16 +65,18 @@ cpp_Tetris
 
 - Console hỗ trợ nhập phím
 
-## ⚙️ Cách biên dịch
+## ⚙️ Cách tải
 
 ```bash
-g++ main.cpp -o Tetris.exe -lwinmm
+git clone https://github.com/QZinhh26/cpp_Tetris.git C:\Users\Username\Downloads\tetris
 ```
+> *(Lưu ý: repo mặc định được lưu ở folder download. Có thể thay đổi vị trí lưu repo bằng cách thay đổi đường dẫn `C:\Users\Username\Downloads\tetris`)*
 
 ## ▶️ Cách chạy
 
 ```bash
-Tetris.exe
+cd C:\Users\Username\Downloads\tetris
+.\main.exe
 ```
 
 ## ⌨️ Điều khiển (tham khảo)
@@ -85,7 +87,7 @@ Tetris.exe
 - `Space` : Hard drop
 - `Esc` : Thoát game
 
-> *(Lưu ý: điều khiển cụ thể xem trong `main.cpp`)*
+> *(Lưu ý: điều khiển cụ thể xem trong menu game)*
 
 ## 🔊 Âm thanh
 
