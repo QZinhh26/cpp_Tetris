@@ -4,7 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <mmsystem.h>
-// #pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -261,7 +261,7 @@ void removeFullLines() {
 
   
     if (linesCleared > 0) {
-        playSound("score.wav");
+        playSound("sfx_score.wav");
         int comboScore = 0;
         switch (linesCleared) {
         case 1: comboScore = 100; break;
@@ -524,7 +524,7 @@ int main()
             if (c == 'w' || c == 'W')
                 currentPiece->rotate();
             if (c == ' ') {
-                playSound("hardDrop.wav");
+                playSound("sfx_hardDrop.wav");
 
                 boardDelPiece();
 
@@ -542,7 +542,7 @@ int main()
                 nextPiece = createPiece(rand() % 7);
 
                 if (isGameOver()) {
-                    playSound("gameOver.wav");
+                    playSound("sfx_gameOver.wav");
                     gameOverAnimation();
                     drawGameOver();
 
