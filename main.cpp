@@ -8,6 +8,10 @@
 
 using namespace std;
 
+void playSound(const char* file) {
+    PlaySoundA(file, NULL, SND_FILENAME | SND_ASYNC);
+}
+
 #define H 20
 #define W 20
 
@@ -444,9 +448,6 @@ void gameOverAnimation() {
     setColor(7);
 }
 
-void playSound(const char* file) {
-    PlaySound(file, NULL, SND_FILENAME | SND_ASYNC);
-}
 //Guide
 void showControls() {
     system("cls");
