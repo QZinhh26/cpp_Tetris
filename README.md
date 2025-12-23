@@ -46,12 +46,15 @@ Project được thực hiện với mục đích **học tập và thực hành
 ```text
 cpp_Tetris
 ├── .gitignore
+└── README.md
+└── libgcc_s_seh-1.dll
+└── libstdc++-6.dll
+└── libwinpthread-1.dll
 ├── main.cpp
 ├── main.exe
 ├── sfx_gameOver.wav
 ├── sfx_hardDrop.wav
 ├── sfx_score.wav
-└── README.md
 ```
 
 ## 🛠️ Yêu cầu
