@@ -8,6 +8,10 @@
 
 using namespace std;
 
+void playSound(const char* file) {
+    PlaySoundA(file, NULL, SND_FILENAME | SND_ASYNC);
+}
+
 #define H 20
 #define W 20
 
@@ -257,7 +261,7 @@ void removeFullLines() {
 
   
     if (linesCleared > 0) {
-        playSound("score.wav");
+        playSound("sfx_score.wav");
         int comboScore = 0;
         switch (linesCleared) {
         case 1: comboScore = 100; break;
@@ -406,10 +410,12 @@ void drawGhostPiece() {
                 int gx = ghost.x + j;
                 int gy = ghost.y + i;
 
-                if (gy >= 0 && gy < H && gx >= 0 && gx < W) {
+                if (gy >= 0 && gy < H && gx >= 0 && gx < W &&
+                    board[gy][gx] == ' ') {
+
                     gotoxy(START_X + gx * 2, START_Y + gy);
                     setColor(8);
-                    cout << "..";   
+                    cout << "..";
                 }
             }
         }
@@ -444,9 +450,6 @@ void gameOverAnimation() {
     setColor(7);
 }
 
-void playSound(const char* file) {
-    PlaySound(file, NULL, SND_FILENAME | SND_ASYNC);
-}
 //Guide
 void showControls() {
     system("cls");
@@ -521,17 +524,16 @@ int main()
             if (c == 'w' || c == 'W')
                 currentPiece->rotate();
             if (c == ' ') {
-                playSound("hardDrop.wav");
+                playSound("sfx_hardDrop.wav");
+
+                boardDelPiece();
+
                 while (currentPiece->canMove(0, 1)) {
-                    boardDelPiece();
                     currentPiece->y++;
-                    pieceToBoard();
-                    drawBoard();
-                    drawGhostPiece();
-                    Sleep(15);
                 }
 
                 pieceToBoard();
+
                 removeFullLines();
                 updateLevel();
 
@@ -540,7 +542,7 @@ int main()
                 nextPiece = createPiece(rand() % 7);
 
                 if (isGameOver()) {
-                    playSound("gameOver.wav");
+                    playSound("sfx_gameOver.wav");
                     gameOverAnimation();
                     drawGameOver();
 
