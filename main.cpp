@@ -525,16 +525,15 @@ int main()
                 currentPiece->rotate();
             if (c == ' ') {
                 playSound("hardDrop.wav");
+
+                boardDelPiece();
+
                 while (currentPiece->canMove(0, 1)) {
-                    boardDelPiece();
                     currentPiece->y++;
-                    pieceToBoard();
-                    drawBoard();
-                    drawGhostPiece();
-                    Sleep(15);
                 }
 
                 pieceToBoard();
+
                 removeFullLines();
                 updateLevel();
 
